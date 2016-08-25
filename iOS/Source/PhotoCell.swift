@@ -24,11 +24,25 @@ class PhotoCell: UICollectionViewCell {
     }
 
     func display(photo: Photo) {
+        // Using Networking
+        /*
         let (baseURL, path) = Networking.splitBaseURLAndRelativePath(photo.thumbnailURL)
         let networking = Networking(baseURL: baseURL)
         networking.downloadImage(path) { image, error in
             self.imageView.image = image
         }
+        */
+
+        // Using NSURLSession
+        let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+        let url = NSURL(string: photo.thumbnailURL)!
+        let task = session.dataTaskWithURL(url) { data, response, error in
+            let image = UIImage(data: data!)!
+            dispatch_async(dispatch_get_main_queue()) {
+                self.imageView.image = image
+            }
+        }
+        task.resume()
     }
 
     override func layoutSubviews() {
