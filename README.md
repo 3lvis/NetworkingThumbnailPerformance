@@ -1,6 +1,6 @@
-# PROJECT_NAME
+# NetworkingThumbnailPerformance
 
-PROJECT_DESCRIPTION
+Sample project to show how to load 10 000 thumbnails using Networking.
 
 ## Running the project
 
@@ -16,17 +16,4 @@ sudo gem install cocoapods
 pod install
 ```
 
-- Open `Project.xcworkspace` or `Project.xcodeproj`
-
-## Updating generated models
-
-- Install [mogenerator](http://rentzsch.github.io/mogenerator/)
-- Run the following command in Terminal.app
-
-```
-mogenerator \
---swift \
---model Library/Models/DataModel.xcdatamodeld/DataModel.xcdatamodel \
---output-dir Library/Models \
---v2
-```
+- Open `Project.xcworkspace`
