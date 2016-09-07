@@ -1,9 +1,15 @@
 import UIKit
 import Photos
 
-struct Photo {
+class Photo {
+    static let NumberOfSections = 500
+
     let thumbnailURL: String
-    static let NumberOfSections = 200
+    var image: UIImage?
+
+    init(thumbnailURL: String) {
+        self.thumbnailURL = thumbnailURL
+    }
 
     static func constructRemoteElements() -> [[Photo]] {
         var sections = [[Photo]]()

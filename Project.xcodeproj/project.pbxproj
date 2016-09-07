@@ -12,6 +12,7 @@
 		146E27AA1BCD51F200959BBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 146E27A11BCD51F200959BBA /* Images.xcassets */; };
 		146E27AC1BCD51F200959BBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E27A41BCD51F200959BBA /* AppDelegate.swift */; };
 		146E27AD1BCD51F200959BBA /* PhotosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E27A51BCD51F200959BBA /* PhotosController.swift */; };
+		1472275C1D802740006F1AFD /* PhotoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1472275B1D802740006F1AFD /* PhotoDownloader.swift */; };
 		1483128E1B92C11500266943 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1483128D1B92C11500266943 /* Tests.swift */; };
 		14C7B6CB1D6F452300AFFFEE /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C7B6CA1D6F452300AFFFEE /* Photo.swift */; };
 		14C7B6CD1D6F462B00AFFFEE /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C7B6CC1D6F462B00AFFFEE /* PhotoCell.swift */; };
@@ -25,6 +26,7 @@
 		146E27A21BCD51F200959BBA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		146E27A41BCD51F200959BBA /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		146E27A51BCD51F200959BBA /* PhotosController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosController.swift; sourceTree = "<group>"; };
+		1472275B1D802740006F1AFD /* PhotoDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDownloader.swift; sourceTree = "<group>"; };
 		148312891B92C11500266943 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1483128C1B92C11500266943 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1483128D1B92C11500266943 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				14C7B6CC1D6F462B00AFFFEE /* PhotoCell.swift */,
 				146E27A41BCD51F200959BBA /* AppDelegate.swift */,
 				146E27A51BCD51F200959BBA /* PhotosController.swift */,
+				1472275B1D802740006F1AFD /* PhotoDownloader.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1472275C1D802740006F1AFD /* PhotoDownloader.swift in Sources */,
 				14C7B6CD1D6F462B00AFFFEE /* PhotoCell.swift in Sources */,
 				14C7B6CB1D6F452300AFFFEE /* Photo.swift in Sources */,
 				146E27AC1BCD51F200959BBA /* AppDelegate.swift in Sources */,
