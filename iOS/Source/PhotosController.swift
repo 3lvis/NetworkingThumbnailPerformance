@@ -75,6 +75,7 @@ extension PhotosController {
     func loadImagesForOnscreenRows() {
         guard self.sections.count != 0 || self.isScrollingFast == false else { return }
 
+        self.terminateAllDownloads()
         let visibleIndexPaths = self.collectionView?.indexPathsForVisibleItems() ?? [NSIndexPath]()
         for indexPath in visibleIndexPaths {
             let photos = self.sections[indexPath.section]
@@ -125,7 +126,6 @@ extension PhotosController {
     }
 
     override func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
-        self.terminateAllDownloads()
         self.loadImagesForOnscreenRows()
         NSObject.cancelPreviousPerformRequestsWithTarget(self)
     }
