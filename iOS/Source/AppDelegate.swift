@@ -1,8 +1,10 @@
 import UIKit
+import Networking
 
 @UIApplicationMain
 class AppDelegate: UIResponder {
     var window: UIWindow?
+    let networking = Networking(baseURL: "http://placehold.it")
 }
 
 extension AppDelegate: UIApplicationDelegate {
@@ -19,7 +21,7 @@ extension AppDelegate: UIApplicationDelegate {
         layout.itemSize = CGSize(width: size, height: size)
         layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
 
-        let controller = PhotosController(collectionViewLayout: layout)
+        let controller = PhotosController(networking: self.networking, collectionViewLayout: layout)
         controller.title = "Remote"
         let navigationController = UINavigationController(rootViewController: controller)
 

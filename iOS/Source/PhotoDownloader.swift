@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import Networking
 
 protocol PhotoDownloaderDelegate: class {
     func photoDownloaderDidFinishDownloadingImage(photoDownloader: PhotoDownloader, error: NSError?)
@@ -9,6 +10,7 @@ class PhotoDownloader {
     static let iconSize = CGFloat(48)
 
     weak var delegate: PhotoDownloaderDelegate?
+    weak var networking: Networking?
 
     var photo: Photo
     var indexPath: NSIndexPath
@@ -20,40 +22,24 @@ class PhotoDownloader {
     }
 
     func startDownload() {
-        let request = NSURLRequest(URL: NSURL(string: self.photo.thumbnailURL)!)
-        self.sessionTask = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+        self.networking?.downloadImage(self.photo.thumbnailURL) { image, error in
             if let error = error {
-                if error.code == NSURLErrorAppTransportSecurityRequiresSecureConnection {
-                    // If you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
-                    // then your Info.plist has not been properly configured to match the target server.
-                    fatalError()
-                } else {
-                    self.delegate?.photoDownloaderDidFinishDownloadingImage(self, error: error)
-                }
+                self.delegate?.photoDownloaderDidFinishDownloadingImage(self, error: error)
             } else {
                 NSOperationQueue.mainQueue().addOperationWithBlock {
-                    guard let data = data else { return }
-                    guard let image = UIImage(data: data) else { return }
-                    if image.size.width == PhotoDownloader.iconSize && image.size.height == PhotoDownloader.iconSize {
-                        let itemSize = CGSize(width: PhotoDownloader.iconSize, height: PhotoDownloader.iconSize)
-                        UIGraphicsBeginImageContextWithOptions(itemSize, false, 0)
-                        let imageRect = CGRect(x: 0, y: 0, width: itemSize.width, height: itemSize.height)
-                        image.drawInRect(imageRect)
-                        self.photo.image = UIGraphicsGetImageFromCurrentImageContext()
-                        UIGraphicsEndImageContext()
-                    } else {
-                        self.photo.image = image
+                    guard let image = image else {
+                        self.delegate?.photoDownloaderDidFinishDownloadingImage(self, error: nil)
+                        return
                     }
 
+                    self.photo.image = image
                     self.delegate?.photoDownloaderDidFinishDownloadingImage(self, error: nil)
                 }
             }
         }
-
-        self.sessionTask?.resume()
     }
 
     func cancelDownload() {
-        self.sessionTask?.cancel()
+        self.networking?.cancelImageDownload(self.photo.thumbnailURL)
     }
 }

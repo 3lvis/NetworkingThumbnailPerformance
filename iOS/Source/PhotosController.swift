@@ -1,4 +1,5 @@
 import UIKit
+import Networking
 
 class PhotosController: UICollectionViewController {
     var photoDownloadsInProgress = [NSIndexPath : PhotoDownloader]()
@@ -6,6 +7,17 @@ class PhotosController: UICollectionViewController {
     var isScrollingFast = false
     var lastOffsetCapture: NSTimeInterval = 0
     var lastOffset = CGPointZero
+    weak var networking: Networking?
+
+    init(networking: Networking, collectionViewLayout: UICollectionViewLayout) {
+        self.networking = networking
+
+        super.init(collectionViewLayout: collectionViewLayout)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +79,7 @@ extension PhotosController {
         guard self.photoDownloadsInProgress[indexPath] == nil else { return }
 
         let photoDownloader = PhotoDownloader(photo: photo, indexPath: indexPath)
+        photoDownloader.networking = self.networking
         photoDownloader.delegate = self
         self.photoDownloadsInProgress[indexPath] = photoDownloader
         photoDownloader.startDownload()
