@@ -8,13 +8,13 @@ class AppDelegate: UIResponder {
 }
 
 extension AppDelegate: UIApplicationDelegate {
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        window = UIWindow(frame: UIScreen.main.bounds)
         guard let window = self.window else { fatalError("Window not found") }
 
         let numberOfColumns = CGFloat(4)
         let layout = UICollectionViewFlowLayout()
-        let bounds = UIScreen.mainScreen().bounds
+        let bounds = UIScreen.main.bounds
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
         let size = (bounds.width - numberOfColumns) / numberOfColumns

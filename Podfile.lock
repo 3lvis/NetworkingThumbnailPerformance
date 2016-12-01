@@ -1,12 +1,12 @@
 PODS:
-  - Networking (1.1.1)
+  - Networking (2.4.0)
 
 DEPENDENCIES:
   - Networking
 
 SPEC CHECKSUMS:
-  Networking: 03357d10d2ddf852dff09fbd51769133987d49d5
+  Networking: 5efb80c2bf80fde13c6e2d203d7fdee0ef568022
 
 PODFILE CHECKSUM: 48760d6a3df969f1d35f8b7d2a2550576e3c4ddb
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

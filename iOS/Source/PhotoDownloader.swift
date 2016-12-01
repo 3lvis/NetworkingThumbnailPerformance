@@ -3,7 +3,7 @@ import UIKit
 import Networking
 
 protocol PhotoDownloaderDelegate: class {
-    func photoDownloaderDidFinishDownloadingImage(photoDownloader: PhotoDownloader, error: NSError?)
+    func photoDownloaderDidFinishDownloadingImage(_ photoDownloader: PhotoDownloader, error: NSError?)
 }
 
 class PhotoDownloader {
@@ -13,10 +13,10 @@ class PhotoDownloader {
     weak var networking: Networking?
 
     var photo: Photo
-    var indexPath: NSIndexPath
-    var sessionTask: NSURLSessionDataTask?
+    var indexPath: IndexPath
+    var sessionTask: URLSessionDataTask?
 
-    init(photo: Photo, indexPath: NSIndexPath) {
+    init(photo: Photo, indexPath: IndexPath) {
         self.photo = photo
         self.indexPath = indexPath
     }
@@ -26,7 +26,7 @@ class PhotoDownloader {
             if let error = error {
                 self.delegate?.photoDownloaderDidFinishDownloadingImage(self, error: error)
             } else {
-                NSOperationQueue.mainQueue().addOperationWithBlock {
+                OperationQueue.main.addOperation {
                     guard let image = image else {
                         self.delegate?.photoDownloaderDidFinishDownloadingImage(self, error: nil)
                         return

@@ -6,7 +6,7 @@ class PhotoCell: UICollectionViewCell {
 
     lazy var imageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .ScaleAspectFill
+        view.contentMode = .scaleAspectFill
 
         return view
     }()
@@ -15,7 +15,7 @@ class PhotoCell: UICollectionViewCell {
         super.init(frame: frame)
 
         self.clipsToBounds = true
-        self.backgroundColor = UIColor.blackColor()
+        self.backgroundColor = UIColor.black
         self.addSubview(self.imageView)
     }
 

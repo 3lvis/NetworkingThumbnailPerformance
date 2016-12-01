@@ -2,11 +2,11 @@ import UIKit
 import Networking
 
 class PhotosController: UICollectionViewController {
-    var photoDownloadsInProgress = [NSIndexPath : PhotoDownloader]()
+    var photoDownloadsInProgress = [IndexPath : PhotoDownloader]()
     var sections = Photo.constructRemoteElements()
     var isScrollingFast = false
-    var lastOffsetCapture: NSTimeInterval = 0
-    var lastOffset = CGPointZero
+    var lastOffsetCapture: TimeInterval = 0
+    var lastOffset = CGPoint.zero
     weak var networking: Networking?
 
     init(networking: Networking, collectionViewLayout: UICollectionViewLayout) {
@@ -22,8 +22,8 @@ class PhotosController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.collectionView?.backgroundColor = UIColor.whiteColor()
-        self.collectionView?.registerClass(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
+        self.collectionView?.backgroundColor = UIColor.white
+        self.collectionView?.register(PhotoCell.self, forCellWithReuseIdentifier: PhotoCell.Identifier)
     }
 
     override func viewWillLayoutSubviews() {
@@ -31,25 +31,25 @@ class PhotosController: UICollectionViewController {
 
         let layout = self.collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
         let columns = CGFloat(4)
-        let bounds = UIScreen.mainScreen().bounds
+        let bounds = UIScreen.main.bounds
         let size = (bounds.width - columns) / columns
         layout.itemSize = CGSize(width: size, height: size)
     }
 }
 
 extension PhotosController {
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.sections.count
     }
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let photos = self.sections[section]
 
         return photos.count
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoCell.Identifier, forIndexPath: indexPath) as! PhotoCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCell.Identifier, for: indexPath) as! PhotoCell
         let photos = self.sections[indexPath.section]
         let photo = photos[indexPath.row]
 
@@ -75,7 +75,7 @@ extension PhotosController {
         self.terminateAllDownloads()
     }
 
-    func startPhotoDownload(photo photo: Photo, forIndexPath indexPath: NSIndexPath) {
+    func startPhotoDownload(photo: Photo, forIndexPath indexPath: IndexPath) {
         guard self.photoDownloadsInProgress[indexPath] == nil else { return }
 
         let photoDownloader = PhotoDownloader(photo: photo, indexPath: indexPath)
@@ -89,7 +89,7 @@ extension PhotosController {
         guard self.sections.count != 0 || self.isScrollingFast == false else { return }
 
         self.terminateAllDownloads()
-        let visibleIndexPaths = self.collectionView?.indexPathsForVisibleItems() ?? [NSIndexPath]()
+        let visibleIndexPaths = self.collectionView?.indexPathsForVisibleItems ?? [IndexPath]()
         for indexPath in visibleIndexPaths {
             let photos = self.sections[indexPath.section]
             let photo = photos[indexPath.row]
@@ -99,12 +99,12 @@ extension PhotosController {
         }
     }
 
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
-        NSObject.cancelPreviousPerformRequestsWithTarget(self)
-        self.performSelector(#selector(self.scrollViewDidEndScrollingAnimation), withObject: nil, afterDelay: 0.3)
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        self.perform(#selector(self.scrollViewDidEndScrollingAnimation), with: nil, afterDelay: 0.3)
 
         let currentOffset = scrollView.contentOffset
-        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+        let currentTime = Date.timeIntervalSinceReferenceDate
         let timeDiff = currentTime - self.lastOffsetCapture
         if timeDiff > 0.1 {
             let distance = Float(currentOffset.y - lastOffset.y)
@@ -127,31 +127,31 @@ extension PhotosController {
         }
     }
 
-    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             self.loadImagesForOnscreenRows()
         }
     }
 
-    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.loadImagesForOnscreenRows()
         self.isScrollingFast = false
     }
 
-    override func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    override func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         self.loadImagesForOnscreenRows()
-        NSObject.cancelPreviousPerformRequestsWithTarget(self)
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
     }
 }
 
 extension PhotosController: PhotoDownloaderDelegate {
-    func photoDownloaderDidFinishDownloadingImage(photoDownloader: PhotoDownloader, error: NSError?) {
-        guard let cell = self.collectionView?.cellForItemAtIndexPath(photoDownloader.indexPath) as? PhotoCell else { return }
+    func photoDownloaderDidFinishDownloadingImage(_ photoDownloader: PhotoDownloader, error: NSError?) {
+        guard let cell = self.collectionView?.cellForItem(at: photoDownloader.indexPath as IndexPath) as? PhotoCell else { return }
         if let _ = error {
             cell.imageView.image = UIImage(named: "placeholder")
         } else {
             cell.imageView.image = photoDownloader.photo.image
         }
-        self.photoDownloadsInProgress.removeValueForKey(photoDownloader.indexPath)
+        self.photoDownloadsInProgress.removeValue(forKey: photoDownloader.indexPath as IndexPath)
     }
 }
