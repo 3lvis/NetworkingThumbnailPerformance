@@ -5,7 +5,4 @@ abstract_target 'CocoaPods' do
 
   target 'iOS' do
   end
-
-  target 'Tests' do
-  end
 end
